@@ -73,11 +73,23 @@ class ResiterViewState extends State<RegisterView> {
                       onPressed: () async {
                         final email = _email.text;
                         final password = _password.text;
-
-                        final user = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: email, password: password);
-                        print(user);
+                        try {
+                          final user = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                          print(user);
+                        } on FirebaseAuthException catch (e) {
+                          print(e.code);
+                          if (e.code == 'weak-password') {
+                            print('Weak password');
+                          } else if (e.code == 'email-already-in-use') {
+                            print('Email already in use');
+                          } else if (e.code == 'invalid-email') {
+                            print('Invalid email');
+                          } else {
+                            print('Unexpected error');
+                          }
+                        }
                       },
                       child: const Text('Register'))
                 ],

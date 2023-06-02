@@ -70,8 +70,10 @@ class LoginViewState extends State<LoginView> {
                             print(e.code);
                             if (e.code == 'user-not-found') {
                               print("User not found in Firebase");
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password');
                             } else {
-                              print('Unknown firebase exception'); 
+                              print('Unexpected firebase error'); 
                             }
                           } catch (e) {
                             print('Unexpected error');
